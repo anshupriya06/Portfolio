@@ -166,23 +166,26 @@ function init() {
     const dustParticles = new THREE.Points(
         new THREE.BufferGeometry(),
         new THREE.PointsMaterial({
-            color: 0xfff2e6, // Changed to warm white
-            size: 0.06,
+            color: 0xfff2e6, // Warm white
+            size: 0.05, // Slightly smaller for more delicate effect
             transparent: true,
-            opacity: 0.4,
+            opacity: 0.3, // Slightly lower opacity for layered effect
             blending: THREE.AdditiveBlending
         })
     );
 
     const dustPositions = [];
-    for(let i = 0; i < 1500; i++) {
-        const radius = 20 + Math.random() * 30;
+    // Increase number of particles from 1500 to 3000
+    for(let i = 0; i < 3000; i++) {
+        const radius = 15 + Math.random() * 40; // Wider radius range
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.acos(2 * Math.random() - 1);
         
-        const x = (radius * Math.sin(phi) * Math.cos(theta)) - 15;
-        const y = radius * Math.sin(phi) * Math.sin(theta);
-        const z = radius * Math.cos(phi);
+        // Add some randomness to distribution
+        const randomOffset = Math.random() * 5;
+        const x = (radius * Math.sin(phi) * Math.cos(theta)) - 15 + randomOffset;
+        const y = radius * Math.sin(phi) * Math.sin(theta) + randomOffset;
+        const z = radius * Math.cos(phi) + randomOffset;
         dustPositions.push(x, y, z);
     }
 
