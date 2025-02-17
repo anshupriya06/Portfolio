@@ -19,12 +19,26 @@ window.addEventListener('wheel', (event) => {
 
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
+    anchor.addEventListener('mousedown', function (e) {
         e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
+        const target = document.querySelector(this.getAttribute('href'));
+        
+        // Scroll to target with GSAP
+        gsap.to(window, {
+            duration: 1,
+            scrollTo: {
+                y: target,
+                offsetY: 70,
+                autoKill: false // Prevents interruption of scroll
+            },
+            ease: "power3.inOut"
         });
-    });
+    }, { passive: false }); // Improve scroll performance
+});
+
+// Remove any existing click event listeners
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.removeEventListener('click', function(){});
 });
 
 // Navbar scroll effect
@@ -478,22 +492,6 @@ projectCards.forEach(card => {
             y: 0,
             scale: 1,
             boxShadow: "none"
-        });
-    });
-});
-
-// Smooth scroll with GSAP
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        gsap.to(window, {
-            duration: 1,
-            scrollTo: {
-                y: target,
-                offsetY: 70
-            },
-            ease: "power3.inOut"
         });
     });
 });
